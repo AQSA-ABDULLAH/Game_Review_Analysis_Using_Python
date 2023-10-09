@@ -1,0 +1,107 @@
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+    <style>
+        .dimmed-background {
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Adjust the last value (0.5) for opacity */
+            padding: 20px;
+            /* Add some padding to the container */
+            color: white;
+            /* Set text color to white for better visibility */
+        }
+    </style>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Movie Recommender</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5 dimmed-background">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="display-4">Welcome to Movie Recommender</h1>
+                <p class="lead">Discover the best movies tailored just for you.</p>
+
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for a movie..." aria-label="Search"
+                            aria-describedby="search-button">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="search-button">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Card -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                {% if data %}
+                {% for cat in data %}
+                <div class="card">
+                    <img src="/Media/{{cat.image}}" class="card-img-top" alt="Sample Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{cat.title}}</h5>
+                        <p class="card-text">{{cat.description}}</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <!-- End of Card -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+{% endblock %}
